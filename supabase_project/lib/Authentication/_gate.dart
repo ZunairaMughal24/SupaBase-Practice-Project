@@ -6,8 +6,8 @@
  */
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_project/Pages/loginPage.dart';
-import 'package:supabase_project/Pages/profilePage.dart';
+import 'package:supabase_project/Pages/AuthPages/loginPage.dart';
+import 'package:supabase_project/Pages/AuthPages/profilePage.dart';
 
 
 class AuthGate extends StatelessWidget {

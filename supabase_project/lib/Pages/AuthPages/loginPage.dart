@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_project/Authentication/authService.dart';
-import 'package:supabase_project/Pages/registerPage.dart';
+import 'package:supabase_project/Pages/AuthPages/registerPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

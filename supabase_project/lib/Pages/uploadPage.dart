@@ -35,8 +35,11 @@ class _UploadpageState extends State<Uploadpage> {
     }
   }
 
-//*upload the image
-  Future uploadImage() async {
+//*upload the image in storage and show the image on the screen
+// To store the image URL
+  String? imageUrl; 
+
+  Future uploadAndShowImage() async {
     if (_imageFile == null) return;
     //generate a unique file name
     final fileName = DateTime.now().microsecondsSinceEpoch.toString();
@@ -52,35 +55,67 @@ class _UploadpageState extends State<Uploadpage> {
         .upload(path, _imageFile!)
         .then((value) => ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Image uploaded successfully"))));
+
+    //now lets retrieve the image we uploaded in Storage
+    String url =
+        Supabase.instance.client.storage.from("images").getPublicUrl(path);
+    //show success and update the ui
+    setState(() {
+      imageUrl = url;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 240, 229, 239),
       appBar: AppBar(
         title: const Center(child: Text("Upload Image")),
       ),
       body: Center(
-        child: Column(
-          children: [
-            //image preview
-            SizedBox(
-              height: 400,
-              width: MediaQuery.of(context).size.width,
-              child: _imageFile != null
-                  ? Image.file(
-                      _imageFile!,
-                      fit: BoxFit.cover,
-                    )
-                  : const Center(child: Text("No image selected")),
-            ),
-            // image picker button
-            ElevatedButton(
-                onPressed: pickImage, child: const Text("Pick image")),
-            //button to upload image
-            ElevatedButton(
-                onPressed: uploadImage, child: const Text("Upload image")),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              //image preview
+              SizedBox(
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                child: _imageFile != null
+                    ? Image.file(
+                        _imageFile!,
+                        fit: BoxFit.cover,
+                      )
+                    : const Center(child: Text("No image selected")),
+              ),
+              // image picker button
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        onPressed: pickImage, child: const Text("Pick image")),
+                    //button to upload image
+                    ElevatedButton(
+                        onPressed: uploadAndShowImage,
+                        child: const Text("Upload image")),
+                  ],
+                ),
+              ),
+
+              //displaying the uploaded image
+              SizedBox(
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                child: imageUrl != null
+                    ? Image.network(
+                        imageUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Center(child: const Text("No image uploaded yet")),
+              ),
+            ],
+          ),
         ),
       ),
     );
