@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+// ignore: must_be_immutable
 class CrudScreen extends StatelessWidget {
   CrudScreen({super.key});
 //* Create - a note and store in supabase
@@ -17,7 +18,7 @@ class CrudScreen extends StatelessWidget {
               actions: [
                 //save button
                 TextButton(
-                  child: Text("save"),
+                  child: const Text("save"),
                   onPressed: () {
                     saveNote();
                     Navigator.pop(context);
@@ -46,13 +47,13 @@ class CrudScreen extends StatelessWidget {
               addNewNote(context);
             },
             backgroundColor: Colors.cyan,
-            child: Icon(Icons.add)),
+            child: const Icon(Icons.add)),
         body: StreamBuilder<List<Map<String, dynamic>>>(
             stream: _noteStream,
             builder: (context, snapshot) {
               //in case of loading
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               //loaded
               final notes = snapshot.data;
