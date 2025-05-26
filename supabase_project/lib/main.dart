@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:supabase_project/Pages/notesPage.dart';
+import 'package:supabase_project/Pages/uploadPage.dart';
 
 void main() async {
   //*step1
@@ -27,6 +28,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const NotesPage());
+        home: const Uploadpage());
   }
 }
